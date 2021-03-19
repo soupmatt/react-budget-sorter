@@ -1,10 +1,9 @@
-export interface BudgetItemRecord {
+export interface BudgetItem {
   name: string;
   amount: number;
   runningTotal: number;
 }
 
-export interface BudgetSorterState {
-  records: BudgetItemRecord[];
-  totalAmount: number;
+export interface BudgetItemRecord extends BudgetItem {
+  runningTotal: number;
 }

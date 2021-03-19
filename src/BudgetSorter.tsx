@@ -5,6 +5,7 @@ import data from "./data.json";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import * as types from "./types";
 import * as utils from "./utils";
+import { DataOutput } from "./DataOutput";
 import { VStack } from "@chakra-ui/layout";
 import { Stat, StatLabel, StatNumber } from "@chakra-ui/stat";
 
@@ -68,6 +69,7 @@ export const BudgetSorter = () => {
           <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
         </Stat>
         <BudgetItemSorter {...state} />
+        <DataOutput data={state.records} />
       </VStack>
     </DragDropContext>
   );

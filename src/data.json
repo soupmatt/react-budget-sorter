@@ -1,6 +1,18 @@
 [
-  { "name": "Charlie Hockey", "amount": 500 },
-  { "name": "New TV", "amount": 700 },
-  { "name": "Woodworking Bench", "amount": 400 },
-  { "name": "Belt Sander", "amount": 180 }
+  {
+    "name": "Woodworking Bench",
+    "amount": 400
+  },
+  {
+    "name": "New TV",
+    "amount": 700
+  },
+  {
+    "name": "Belt Sander",
+    "amount": 180
+  },
+  {
+    "name": "Charlie Hockey",
+    "amount": 500
+  }
 ]
