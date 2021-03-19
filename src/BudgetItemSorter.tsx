@@ -1,56 +1,14 @@
 import React, { useState } from "react";
-import { Grid, Text, VStack } from "@chakra-ui/react";
-import { DragHandleIcon } from "@chakra-ui/icons";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from "react-beautiful-dnd";
-interface DataItem {
-  name: string;
-  amount: number;
-}
+import { VStack } from "@chakra-ui/react";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
-interface BudgetSorterProps {
+import { BudgetItem, BudgetItemProps, DataItem } from "./BudgetItem";
+interface BudgetItemSorterProps {
   records: DataItem[];
 }
 
-interface BudgetItemProps {
-  data: DataItem;
-  index: number;
-  runningTotal: number;
-}
-
-export const BudgetItem: React.FunctionComponent<BudgetItemProps> = (
-  props: BudgetItemProps
-) => {
-  return (
-    <Draggable
-      draggableId={props.data.name}
-      index={props.index}
-      key={props.data.name}
-    >
-      {(provided) => (
-        <Grid
-          templateColumns="min-content 2fr 1fr 1fr"
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-        >
-          <div {...provided.dragHandleProps}>
-            <DragHandleIcon mr={2} />
-          </div>
-          <Text>{props.data.name}</Text>
-          <Text textAlign="right">{props.data.amount}</Text>
-          <Text textAlign="right">{props.runningTotal}</Text>
-        </Grid>
-      )}
-    </Draggable>
-  );
-};
-
-export const BudgetSorter: React.FunctionComponent<BudgetSorterProps> = (
-  props: BudgetSorterProps
+export const BudgetItemSorter: React.FunctionComponent<BudgetItemSorterProps> = (
+  props: BudgetItemSorterProps
 ) => {
   function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
     const result = Array.from(list);
