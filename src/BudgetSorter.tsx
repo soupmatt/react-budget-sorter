@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { BudgetItemSorter } from "./BudgetItemSorter";
+import { TotalForm } from "./TotalForm";
 import data from "./data.json";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import * as types from "./types";
+import * as utils from "./utils";
+import { VStack } from "@chakra-ui/layout";
+import { Stat, StatLabel, StatNumber } from "@chakra-ui/stat";
 
 export const BudgetSorter = () => {
   function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
@@ -13,11 +17,14 @@ export const BudgetSorter = () => {
     return result;
   }
 
-  function updateRunningTotals(records: types.BudgetItemRecord[]): void {
+  function updateRunningTotals(
+    records: types.BudgetItemRecord[],
+    totalAmount: number
+  ): void {
     records.reduce((runningTotal: number, rec) => {
-      rec.runningTotal = runningTotal + rec.amount;
+      rec.runningTotal = runningTotal - rec.amount;
       return rec.runningTotal;
-    }, 0);
+    }, totalAmount);
   }
 
   function onDragEnd(result: DropResult) {
@@ -35,21 +42,33 @@ export const BudgetSorter = () => {
       result.destination.index
     );
 
-    updateRunningTotals(records);
+    updateRunningTotals(records, state.totalAmount);
 
-    setState({ records });
+    setState({ ...state, records });
+  }
+
+  function onTotalAmountSubmit({ totalAmount }: { totalAmount: number }) {
+    updateRunningTotals(state.records, totalAmount);
+    setState({ ...state, totalAmount });
   }
 
   const records: types.BudgetItemRecord[] = data.map((data) => {
     return { ...data, runningTotal: 0 };
   });
-  updateRunningTotals(records);
+  updateRunningTotals(records, 0);
 
-  const [state, setState] = useState({ records });
+  const [state, setState] = useState({ records, totalAmount: 0 });
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <BudgetItemSorter records={state.records} />
+      <VStack spacing={4} padding={5}>
+        <TotalForm onSubmit={onTotalAmountSubmit} />
+        <Stat>
+          <StatLabel>Total Amount Available</StatLabel>
+          <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
+        </Stat>
+        <BudgetItemSorter {...state} />
+      </VStack>
     </DragDropContext>
   );
 };

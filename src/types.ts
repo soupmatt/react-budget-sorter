@@ -3,3 +3,8 @@ export interface BudgetItemRecord {
   amount: number;
   runningTotal: number;
 }
+
+export interface BudgetSorterState {
+  records: BudgetItemRecord[];
+  totalAmount: number;
+}

@@ -3,13 +3,10 @@ import { VStack } from "@chakra-ui/react";
 import { Droppable } from "react-beautiful-dnd";
 import * as types from "./types";
 import { BudgetItem } from "./BudgetItem";
-interface BudgetItemSorterProps {
-  records: types.BudgetItemRecord[];
-}
 
-export const BudgetItemSorter: React.FunctionComponent<BudgetItemSorterProps> = (
-  props: BudgetItemSorterProps
-) => {
+export const BudgetItemSorter: React.FunctionComponent<{
+  records: types.BudgetItemRecord[];
+}> = (props) => {
   return (
     <Droppable droppableId="list">
       {(provided) => (
@@ -20,7 +17,7 @@ export const BudgetItemSorter: React.FunctionComponent<BudgetItemSorterProps> = 
           {...provided.droppableProps}
         >
           {props.records.map((value: types.BudgetItemRecord, index: number) => {
-            return <BudgetItem {...value} index={index} />;
+            return <BudgetItem {...value} index={index} key={value.name} />;
           })}
           {provided.placeholder}
         </VStack>
