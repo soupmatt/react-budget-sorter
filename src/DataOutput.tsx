@@ -1,6 +1,6 @@
 import React from "react";
 import * as types from "./types";
-import { useClipboard, Button, VStack } from "@chakra-ui/react";
+import { useClipboard, Button, VStack, Text } from "@chakra-ui/react";
 
 export const DataOutput: React.FunctionComponent<{
   data: types.BudgetItem[];
@@ -17,7 +17,9 @@ export const DataOutput: React.FunctionComponent<{
       <Button onClick={onCopy} colorScheme="teal">
         {hasCopied ? "Copied" : "Copy Data To Clipboard"}
       </Button>
-      <pre>{jsonStr}</pre>
+      <Text as="pre" fontSize="small">
+        {jsonStr}
+      </Text>
     </VStack>
   );
 };
