@@ -56,9 +56,13 @@ export const BudgetSorter = () => {
   const records: types.BudgetItemRecord[] = data.map((data) => {
     return { ...data, runningTotal: 0 };
   });
-  updateRunningTotals(records, 0);
+  const initialTotalAmount = 10057.63;
+  updateRunningTotals(records, initialTotalAmount);
 
-  const [state, setState] = useState({ records, totalAmount: 0 });
+  const [state, setState] = useState({
+    records,
+    totalAmount: initialTotalAmount,
+  });
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
