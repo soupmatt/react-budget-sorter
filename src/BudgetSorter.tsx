@@ -18,14 +18,11 @@ export const BudgetSorter = () => {
     return result;
   }
 
-  function updateRunningTotals(
-    records: types.BudgetItemRecord[],
-    totalAmount: number
-  ): void {
-    records.reduce((runningTotal: number, rec) => {
+  function updateRunningTotals(data: types.BudgetSorterState): void {
+    data.records.reduce((runningTotal: number, rec) => {
       rec.runningTotal = runningTotal - rec.amount;
       return rec.runningTotal;
-    }, totalAmount);
+    }, data.totalAmount);
   }
 
   function onDragEnd(result: DropResult) {
@@ -43,25 +40,24 @@ export const BudgetSorter = () => {
       result.destination.index
     );
 
-    updateRunningTotals(records, state.totalAmount);
+    updateRunningTotals(state);
 
     setState({ ...state, records });
   }
 
   function onTotalAmountSubmit({ totalAmount }: { totalAmount: number }) {
-    updateRunningTotals(state.records, totalAmount);
+    updateRunningTotals({ ...state, totalAmount });
     setState({ ...state, totalAmount });
   }
 
-  const records: types.BudgetItemRecord[] = data.map((data) => {
+  const records: types.BudgetItemRecord[] = data.records.map((data) => {
     return { ...data, runningTotal: 0 };
   });
-  const initialTotalAmount = 10057.63;
-  updateRunningTotals(records, initialTotalAmount);
+  updateRunningTotals({ ...data, records });
 
   const [state, setState] = useState({
+    ...data,
     records,
-    totalAmount: initialTotalAmount,
   });
 
   return (
@@ -73,7 +69,7 @@ export const BudgetSorter = () => {
           <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
         </Stat>
         <BudgetItemSorter {...state} />
-        <DataOutput data={state.records} />
+        <DataOutput {...state} />
       </VStack>
     </DragDropContext>
   );

@@ -1,54 +1,57 @@
-[
-  {
-    "name": "Spring Lawn Cleanup",
-    "amount": 760
-  },
-  {
-    "name": "Glasses for Katie and Matt",
-    "amount": 1500
-  },
-  {
-    "name": "Cover Market Fee",
-    "amount": 250
-  },
-  {
-    "name": "Market Setup Pieces",
-    "amount": 300
-  },
-  {
-    "name": "Garage Workshop",
-    "amount": 1000
-  },
-  {
-    "name": "Fall Hockey",
-    "amount": 2000
-  },
-  {
-    "name": "New Phones",
-    "amount": 1750
-  },
-  {
-    "name": "Travel to CO",
-    "amount": 300
-  },
-  {
-    "name": "Kitchen Painting",
-    "amount": 1500
-  },
-  {
-    "name": "Tools and Materials for Coffee Table",
-    "amount": 300
-  },
-  {
-    "name": "Fall and Winter Craft Markets",
-    "amount": 500
-  },
-  {
-    "name": "New Covers for couch and chair",
-    "amount": 500
-  },
-  {
-    "name": "Swivel Base for family room chair",
-    "amount": 200
-  }
-]
+{
+  "records": [
+    {
+      "name": "Spring Lawn Cleanup",
+      "amount": 760
+    },
+    {
+      "name": "Glasses for Katie and Matt",
+      "amount": 1500
+    },
+    {
+      "name": "Cover Market Fee",
+      "amount": 250
+    },
+    {
+      "name": "Market Setup Pieces",
+      "amount": 300
+    },
+    {
+      "name": "Garage Workshop",
+      "amount": 1000
+    },
+    {
+      "name": "Fall Hockey",
+      "amount": 2000
+    },
+    {
+      "name": "New Phones",
+      "amount": 1750
+    },
+    {
+      "name": "Travel to CO",
+      "amount": 300
+    },
+    {
+      "name": "Kitchen Painting",
+      "amount": 1500
+    },
+    {
+      "name": "Tools and Materials for Coffee Table",
+      "amount": 300
+    },
+    {
+      "name": "Fall and Winter Craft Markets",
+      "amount": 500
+    },
+    {
+      "name": "New Covers for couch and chair",
+      "amount": 500
+    },
+    {
+      "name": "Swivel Base for family room chair",
+      "amount": 200
+    }
+  ],
+  "totalAmount": 10057.63
+}
