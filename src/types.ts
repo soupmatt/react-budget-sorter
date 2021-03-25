@@ -18,3 +18,7 @@ export type ItemDeleteFn = (
   index: number,
   event?: React.SyntheticEvent
 ) => void;
+
+export type PropSubset<Type> = {
+  [Property in keyof Type]?: Type[Property];
+};

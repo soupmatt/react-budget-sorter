@@ -6,8 +6,8 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import * as types from "./types";
 import * as utils from "./utils";
 import { DataOutput } from "./DataOutput";
-import { HStack, VStack } from "@chakra-ui/layout";
-import { Stat, StatLabel, StatNumber } from "@chakra-ui/stat";
+import { HStack, Stat, StatLabel, StatNumber, VStack } from "@chakra-ui/react";
+import { AddBudgetItemForm } from "./AddBudgetItemForm";
 
 export const BudgetSorter = () => {
   function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
@@ -25,6 +25,13 @@ export const BudgetSorter = () => {
     }, data.totalAmount);
   }
 
+  function updateStateAndSave(
+    newData: types.PropSubset<types.BudgetSorterState>
+  ) {
+    updateRunningTotals({ ...state, ...newData });
+    setState({ ...state, ...newData });
+  }
+
   function onDragEnd(result: DropResult) {
     if (!result.destination) {
       return;
@@ -39,13 +46,21 @@ export const BudgetSorter = () => {
 
     const records = reorder(state.records, sourceIndex, destinationIndex);
 
-    updateRunningTotals({ ...state, records });
-    setState({ ...state, records });
+    updateStateAndSave({ records });
   }
 
   function onTotalAmountSubmit({ totalAmount }: { totalAmount: number }) {
-    updateRunningTotals({ ...state, totalAmount });
-    setState({ ...state, totalAmount });
+    updateStateAndSave({ totalAmount });
+  }
+
+  function itemToRecord(item: types.BudgetItem): types.BudgetItemRecord {
+    return { ...item, runningTotal: 0 };
+  }
+
+  function onItemAdd(newItem: types.BudgetItem) {
+    const records = state.records;
+    records.splice(0, 0, itemToRecord(newItem));
+    updateStateAndSave({ records });
   }
 
   const onItemDelete = (index: number) => {
@@ -55,9 +70,7 @@ export const BudgetSorter = () => {
     setState({ ...state, records });
   };
 
-  const records: types.BudgetItemRecord[] = data.records.map((data) => {
-    return { ...data, runningTotal: 0 };
-  });
+  const records: types.BudgetItemRecord[] = data.records.map(itemToRecord);
   updateRunningTotals({ ...data, records });
 
   const [state, setState] = useState({
@@ -76,6 +89,7 @@ export const BudgetSorter = () => {
               <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
             </Stat>
           </HStack>
+          <AddBudgetItemForm onSubmit={onItemAdd} />
           <BudgetItemSorter {...state} onItemDelete={onItemDelete} />
         </VStack>
         <VStack spacing={4} padding={5}>
