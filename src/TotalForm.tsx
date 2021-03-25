@@ -13,7 +13,7 @@ export const TotalForm: React.FunctionComponent<TotalFormProps> = ({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl id="totalAmount">
-        <FormLabel htmlFor="totalAmount">Total Amount Available</FormLabel>
+        <FormLabel htmlFor="totalAmount">Set Total Amount Available</FormLabel>
         <Input
           name="totalAmount"
           type="number"

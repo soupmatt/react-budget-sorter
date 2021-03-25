@@ -21,7 +21,7 @@ export const DataOutput: React.FunctionComponent<types.BudgetSorterState> = (
       <Button onClick={onCopy} colorScheme="teal">
         {hasCopied ? "Copied" : "Copy Data To Clipboard"}
       </Button>
-      <Text as="pre" fontSize="small">
+      <Text as="pre" fontSize="x-small">
         {jsonStr}
       </Text>
     </VStack>

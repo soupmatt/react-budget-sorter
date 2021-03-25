@@ -6,7 +6,7 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import * as types from "./types";
 import * as utils from "./utils";
 import { DataOutput } from "./DataOutput";
-import { VStack } from "@chakra-ui/layout";
+import { HStack, VStack } from "@chakra-ui/layout";
 import { Stat, StatLabel, StatNumber } from "@chakra-ui/stat";
 
 export const BudgetSorter = () => {
@@ -67,15 +67,21 @@ export const BudgetSorter = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <VStack spacing={4} padding={5}>
-        <TotalForm onSubmit={onTotalAmountSubmit} />
-        <Stat>
-          <StatLabel>Total Amount Available</StatLabel>
-          <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
-        </Stat>
-        <BudgetItemSorter {...state} onItemDelete={onItemDelete} />
-        <DataOutput {...state} />
-      </VStack>
+      <HStack spacing={10} alignItems="start">
+        <VStack spacing={4} padding={5}>
+          <HStack spacing={10}>
+            <TotalForm onSubmit={onTotalAmountSubmit} />
+            <Stat>
+              <StatLabel>Total Amount Available</StatLabel>
+              <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
+            </Stat>
+          </HStack>
+          <BudgetItemSorter {...state} onItemDelete={onItemDelete} />
+        </VStack>
+        <VStack spacing={4} padding={5}>
+          <DataOutput {...state} />
+        </VStack>
+      </HStack>
     </DragDropContext>
   );
 };
