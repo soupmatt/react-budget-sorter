@@ -7,7 +7,7 @@ export const App = () => (
   <ChakraProvider theme={theme}>
     <Box fontSize="l">
       <Grid minH="100vh" p={3}>
-        <Box maxW="lg" borderWidth="1px" borderRadius="lg">
+        <Box maxW="xl" borderWidth="1px" borderRadius="lg">
           <ColorModeSwitcher justifySelf="flex-end" />
           <BudgetSorter />
         </Box>

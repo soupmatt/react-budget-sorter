@@ -30,18 +30,16 @@ export const BudgetSorter = () => {
       return;
     }
 
-    if (result.destination.index === result.source.index) {
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    if (destinationIndex === sourceIndex) {
       return;
     }
 
-    const records = reorder(
-      state.records,
-      result.source.index,
-      result.destination.index
-    );
+    const records = reorder(state.records, sourceIndex, destinationIndex);
 
-    updateRunningTotals(state);
-
+    updateRunningTotals({ ...state, records });
     setState({ ...state, records });
   }
 
@@ -49,6 +47,13 @@ export const BudgetSorter = () => {
     updateRunningTotals({ ...state, totalAmount });
     setState({ ...state, totalAmount });
   }
+
+  const onItemDelete = (index: number) => {
+    const records = state.records;
+    records.splice(index, 1);
+    updateRunningTotals({ ...state, records });
+    setState({ ...state, records });
+  };
 
   const records: types.BudgetItemRecord[] = data.records.map((data) => {
     return { ...data, runningTotal: 0 };
@@ -68,7 +73,7 @@ export const BudgetSorter = () => {
           <StatLabel>Total Amount Available</StatLabel>
           <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
         </Stat>
-        <BudgetItemSorter {...state} />
+        <BudgetItemSorter {...state} onItemDelete={onItemDelete} />
         <DataOutput {...state} />
       </VStack>
     </DragDropContext>

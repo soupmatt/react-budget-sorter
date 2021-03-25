@@ -1,12 +1,13 @@
 import React from "react";
-import { Grid, Text } from "@chakra-ui/react";
-import { DragHandleIcon } from "@chakra-ui/icons";
+import { Grid, IconButton, Text } from "@chakra-ui/react";
+import { DeleteIcon, DragHandleIcon } from "@chakra-ui/icons";
 import { Draggable } from "react-beautiful-dnd";
 import * as types from "./types";
 import * as utils from "./utils";
 
 export interface BudgetItemProps extends types.BudgetItemRecord {
   index: number;
+  onItemDelete: React.ReactEventHandler<Element>;
 }
 
 export const BudgetItem: React.FunctionComponent<BudgetItemProps> = (
@@ -16,7 +17,7 @@ export const BudgetItem: React.FunctionComponent<BudgetItemProps> = (
     <Draggable draggableId={props.name} index={props.index}>
       {(provided) => (
         <Grid
-          templateColumns="min-content 3fr 2fr 2fr"
+          templateColumns="min-content 3fr 2fr 2fr min-content"
           ref={provided.innerRef}
           {...provided.draggableProps}
         >
@@ -31,6 +32,12 @@ export const BudgetItem: React.FunctionComponent<BudgetItemProps> = (
           >
             {utils.formatCurrency(props.runningTotal)}
           </Text>
+          <IconButton
+            ml={5}
+            aria-label="remove record"
+            icon={<DeleteIcon />}
+            onClick={props.onItemDelete}
+          />
         </Grid>
       )}
     </Draggable>

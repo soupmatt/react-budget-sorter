@@ -6,7 +6,20 @@ import { BudgetItem } from "./BudgetItem";
 
 export const BudgetItemSorter: React.FunctionComponent<{
   records: types.BudgetItemRecord[];
+  onItemDelete: types.ItemDeleteFn;
 }> = (props) => {
+  const budgetItems = props.records.map(
+    (value: types.BudgetItemRecord, index: number) => {
+      return (
+        <BudgetItem
+          {...value}
+          index={index}
+          key={value.name}
+          onItemDelete={(e) => props.onItemDelete(index, e)}
+        />
+      );
+    }
+  );
   return (
     <Droppable droppableId="list">
       {(provided) => (
@@ -16,9 +29,7 @@ export const BudgetItemSorter: React.FunctionComponent<{
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
-          {props.records.map((value: types.BudgetItemRecord, index: number) => {
-            return <BudgetItem {...value} index={index} key={value.name} />;
-          })}
+          {budgetItems}
           {provided.placeholder}
         </VStack>
       )}
