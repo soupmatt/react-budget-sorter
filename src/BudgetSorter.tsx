@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { BudgetItemSorter } from "./BudgetItemSorter";
-import { TotalForm } from "./TotalForm";
 import data from "./data.json";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import * as types from "./types";
@@ -8,6 +7,7 @@ import * as utils from "./utils";
 import { DataOutput } from "./DataOutput";
 import { HStack, Stat, StatLabel, StatNumber, VStack } from "@chakra-ui/react";
 import { AddBudgetItemForm } from "./AddBudgetItemForm";
+import { EditableField } from "./EditableField";
 
 export const BudgetSorter = () => {
   function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
@@ -82,14 +82,19 @@ export const BudgetSorter = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <HStack spacing={10} alignItems="start">
         <VStack spacing={4} padding={5}>
-          <HStack spacing={10}>
-            <TotalForm onSubmit={onTotalAmountSubmit} />
-            <Stat>
-              <StatLabel>Total Amount Available</StatLabel>
-              <StatNumber>{utils.formatCurrency(state.totalAmount)}</StatNumber>
-            </Stat>
-          </HStack>
           <AddBudgetItemForm onSubmit={onItemAdd} />
+          <Stat>
+            <StatLabel>Total Amount Available</StatLabel>
+            <EditableField
+              initialValue={state.totalAmount}
+              onSave={(value: number) => {
+                onTotalAmountSubmit({ totalAmount: value });
+              }}
+              onShow={(value: number) => {
+                return <StatNumber>{utils.formatCurrency(value)}</StatNumber>;
+              }}
+            />
+          </Stat>
           <BudgetItemSorter {...state} onItemDelete={onItemDelete} />
         </VStack>
         <VStack spacing={4} padding={5}>
