@@ -1,12 +1,12 @@
 {
   "records": [
     {
-      "name": "Spring Lawn Cleanup",
-      "amount": 760
+      "name": "TV Wall Mounting",
+      "amount": 100
     },
     {
-      "name": "Glasses for Katie and Matt",
-      "amount": 1500
+      "name": "Spring Lawn Cleanup",
+      "amount": 760
     },
     {
       "name": "Cover Market Fee",
@@ -14,7 +14,7 @@
     },
     {
       "name": "Market Setup Pieces",
-      "amount": 300
+      "amount": 110
     },
     {
       "name": "Garage Workshop",
@@ -45,10 +45,6 @@
       "amount": 500
     },
     {
-      "name": "New Covers for couch and chair",
-      "amount": 500
-    },
-    {
       "name": "Swivel Base for family room chair",
       "amount": 200
     },
@@ -57,5 +53,5 @@
       "amount": 65
     }
   ],
-  "totalAmount": 10057.63
+  "totalAmount": 9113.99
 }
