@@ -4,10 +4,12 @@ import { DeleteIcon, DragHandleIcon } from "@chakra-ui/icons";
 import { Draggable } from "react-beautiful-dnd";
 import * as types from "./types";
 import * as utils from "./utils";
+import { EditableField } from "./EditableField";
 
 export interface BudgetItemProps extends types.BudgetItemRecord {
   index: number;
-  onItemDelete: React.ReactEventHandler<Element>;
+  onItemDelete: (item: types.BudgetItem) => any;
+  onItemUpdate: (item: types.BudgetItem) => any;
 }
 
 export const BudgetItem: React.FunctionComponent<BudgetItemProps> = (
@@ -25,7 +27,15 @@ export const BudgetItem: React.FunctionComponent<BudgetItemProps> = (
             <DragHandleIcon mr={2} />
           </div>
           <Text>{props.name}</Text>
-          <Text textAlign="right">{utils.formatCurrency(props.amount)}</Text>
+          <EditableField
+            initialValue={props.amount}
+            onSave={(value: number) => {
+              props.onItemUpdate({ name: props.name, amount: value });
+            }}
+            onShow={(value: number) => (
+              <Text textAlign="right">{utils.formatCurrency(value)}</Text>
+            )}
+          />
           <Text
             textAlign="right"
             color={props.runningTotal >= 0 ? "green" : "red"}
@@ -36,7 +46,10 @@ export const BudgetItem: React.FunctionComponent<BudgetItemProps> = (
             ml={5}
             aria-label="remove record"
             icon={<DeleteIcon />}
-            onClick={props.onItemDelete}
+            onClick={(event) => {
+              event.preventDefault();
+              props.onItemDelete({ name: props.name, amount: props.amount });
+            }}
           />
         </Grid>
       )}

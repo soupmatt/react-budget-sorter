@@ -87,7 +87,6 @@ export const EditableField: React.FunctionComponent<EditableFieldProps> = ({
         type="number"
         max="100000"
         step="0.01"
-        placeholder="7500.00"
         isRequired={true}
         value={state.value}
         onChange={handleChange}

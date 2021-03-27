@@ -66,8 +66,14 @@ export const BudgetSorter = () => {
   const onItemDelete = (index: number) => {
     const records = state.records;
     records.splice(index, 1);
-    updateRunningTotals({ ...state, records });
-    setState({ ...state, records });
+    updateStateAndSave({ records });
+  };
+
+  const onItemUpdate = (index: number, newItem: types.BudgetItem) => {
+    const records = state.records;
+    const rec = Object.assign({}, records[index], newItem);
+    records[index] = rec;
+    updateStateAndSave({ records });
   };
 
   const records: types.BudgetItemRecord[] = data.records.map(itemToRecord);
@@ -90,12 +96,16 @@ export const BudgetSorter = () => {
               onSave={(value: number) => {
                 onTotalAmountSubmit({ totalAmount: value });
               }}
-              onShow={(value: number) => {
-                return <StatNumber>{utils.formatCurrency(value)}</StatNumber>;
-              }}
+              onShow={(value: number) => (
+                <StatNumber>{utils.formatCurrency(value)}</StatNumber>
+              )}
             />
           </Stat>
-          <BudgetItemSorter {...state} onItemDelete={onItemDelete} />
+          <BudgetItemSorter
+            {...state}
+            onItemDelete={onItemDelete}
+            onItemUpdate={onItemUpdate}
+          />
         </VStack>
         <VStack spacing={4} padding={5}>
           <DataOutput {...state} />
