@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { BudgetItemSorter } from "./BudgetItemSorter";
 import data from "../data.json";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
@@ -9,8 +9,20 @@ import { HStack, Stat, StatLabel, StatNumber, VStack } from "@chakra-ui/react";
 import { AddBudgetItemForm } from "./AddBudgetItemForm";
 import { EditableField } from "./EditableField";
 
-export const BudgetSorter = () => {
-  function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
+export class BudgetSorter extends React.Component<{}, types.BudgetSorterState> {
+  constructor(props = {}) {
+    super(props);
+    this.state = data;
+
+    this.onTotalAmountSubmit = this.onTotalAmountSubmit.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.onItemAdd = this.onItemAdd.bind(this);
+    this.onTotalAmountSubmit = this.onTotalAmountSubmit.bind(this);
+    this.onItemDelete = this.onItemDelete.bind(this);
+    this.onItemUpdate = this.onItemUpdate.bind(this);
+  }
+
+  reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
@@ -18,13 +30,7 @@ export const BudgetSorter = () => {
     return result;
   }
 
-  function updateStateAndSave(
-    newData: types.PropSubset<types.BudgetSorterState>
-  ) {
-    setState({ ...state, ...newData });
-  }
-
-  function onDragEnd(result: DropResult) {
+  onDragEnd(result: DropResult) {
     if (!result.destination) {
       return;
     }
@@ -36,63 +42,67 @@ export const BudgetSorter = () => {
       return;
     }
 
-    const records = reorder(state.records, sourceIndex, destinationIndex);
+    const records = this.reorder(
+      this.state.records,
+      sourceIndex,
+      destinationIndex
+    );
 
-    updateStateAndSave({ records });
+    this.setState({ records });
   }
 
-  function onTotalAmountSubmit({ totalAmount }: { totalAmount: number }) {
-    updateStateAndSave({ totalAmount });
+  onTotalAmountSubmit({ totalAmount }: { totalAmount: number }) {
+    this.setState({ totalAmount });
   }
 
-  function onItemAdd(newItem: types.BudgetItem) {
-    const records = state.records;
+  onItemAdd(newItem: types.BudgetItem) {
+    const records = this.state.records;
     records.splice(0, 0, newItem);
-    updateStateAndSave({ records });
+    this.setState({ records });
   }
 
-  const onItemDelete = (index: number) => {
-    const records = state.records;
+  onItemDelete(index: number) {
+    const records = this.state.records;
     records.splice(index, 1);
-    updateStateAndSave({ records });
-  };
+    this.setState({ records });
+  }
 
-  const onItemUpdate = (index: number, newItem: types.BudgetItem) => {
-    const records = state.records;
+  onItemUpdate(index: number, newItem: types.BudgetItem) {
+    const records = this.state.records;
     const rec = Object.assign({}, records[index], newItem);
     records[index] = rec;
-    updateStateAndSave({ records });
-  };
+    this.setState({ records });
+  }
 
-  const [state, setState] = useState(data);
-
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <HStack spacing={10} alignItems="start">
-        <VStack spacing={4} padding={5}>
-          <AddBudgetItemForm onSubmit={onItemAdd} />
-          <Stat>
-            <StatLabel>Total Amount Available</StatLabel>
-            <EditableField
-              initialValue={state.totalAmount}
-              onSave={(value: number) => {
-                onTotalAmountSubmit({ totalAmount: value });
-              }}
-              onShow={(value: number) => (
-                <StatNumber>{utils.formatCurrency(value)}</StatNumber>
-              )}
+  render() {
+    return (
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <HStack spacing={10} alignItems="start">
+          <VStack spacing={4} padding={5}>
+            <AddBudgetItemForm onSubmit={this.onItemAdd} />
+            <Stat>
+              <StatLabel>Total Amount Available</StatLabel>
+              <EditableField
+                initialValue={this.state.totalAmount}
+                onSave={(value: number) => {
+                  this.onTotalAmountSubmit({ totalAmount: value });
+                }}
+                onShow={(value: number) => (
+                  <StatNumber>{utils.formatCurrency(value)}</StatNumber>
+                )}
+              />
+            </Stat>
+            <BudgetItemSorter
+              {...this.state}
+              onItemDelete={this.onItemDelete}
+              onItemUpdate={this.onItemUpdate}
             />
-          </Stat>
-          <BudgetItemSorter
-            {...state}
-            onItemDelete={onItemDelete}
-            onItemUpdate={onItemUpdate}
-          />
-        </VStack>
-        <VStack spacing={4} padding={5}>
-          <DataOutput {...state} />
-        </VStack>
-      </HStack>
-    </DragDropContext>
-  );
-};
+          </VStack>
+          <VStack spacing={4} padding={5}>
+            <DataOutput {...this.state} />
+          </VStack>
+        </HStack>
+      </DragDropContext>
+    );
+  }
+}
