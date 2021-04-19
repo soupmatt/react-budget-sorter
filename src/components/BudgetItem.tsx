@@ -6,7 +6,8 @@ import * as types from "../types";
 import * as utils from "../utils";
 import { EditableField } from "./EditableField";
 
-export interface BudgetItemProps extends types.BudgetItemRecord {
+export interface BudgetItemProps extends types.BudgetItem {
+  runningTotal: number;
   index: number;
   onItemDelete: (item: types.BudgetItem) => any;
   onItemUpdate: (item: types.BudgetItem) => any;

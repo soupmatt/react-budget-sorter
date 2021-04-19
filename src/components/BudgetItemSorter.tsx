@@ -5,15 +5,19 @@ import * as types from "../types";
 import { BudgetItem } from "./BudgetItem";
 
 export const BudgetItemSorter: React.FunctionComponent<{
-  records: types.BudgetItemRecord[];
+  totalAmount: number;
+  records: types.BudgetItem[];
   onItemDelete: (index: number, item: types.BudgetItem) => void;
   onItemUpdate: (index: number, newItem: types.BudgetItem) => void;
 }> = (props) => {
+  let runningTotal: number = props.totalAmount;
   const budgetItems = props.records.map(
-    (value: types.BudgetItemRecord, index: number) => {
+    (value: types.BudgetItem, index: number) => {
+      runningTotal = runningTotal - value.amount;
       return (
         <BudgetItem
           {...value}
+          runningTotal={runningTotal}
           index={index}
           key={value.name}
           onItemDelete={(item) => props.onItemDelete(index, item)}

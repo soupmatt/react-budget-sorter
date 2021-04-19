@@ -18,17 +18,9 @@ export const BudgetSorter = () => {
     return result;
   }
 
-  function updateRunningTotals(data: types.BudgetSorterState): void {
-    data.records.reduce((runningTotal: number, rec) => {
-      rec.runningTotal = runningTotal - rec.amount;
-      return rec.runningTotal;
-    }, data.totalAmount);
-  }
-
   function updateStateAndSave(
     newData: types.PropSubset<types.BudgetSorterState>
   ) {
-    updateRunningTotals({ ...state, ...newData });
     setState({ ...state, ...newData });
   }
 
@@ -53,13 +45,9 @@ export const BudgetSorter = () => {
     updateStateAndSave({ totalAmount });
   }
 
-  function itemToRecord(item: types.BudgetItem): types.BudgetItemRecord {
-    return { ...item, runningTotal: 0 };
-  }
-
   function onItemAdd(newItem: types.BudgetItem) {
     const records = state.records;
-    records.splice(0, 0, itemToRecord(newItem));
+    records.splice(0, 0, newItem);
     updateStateAndSave({ records });
   }
 
@@ -76,13 +64,7 @@ export const BudgetSorter = () => {
     updateStateAndSave({ records });
   };
 
-  const records: types.BudgetItemRecord[] = data.records.map(itemToRecord);
-  updateRunningTotals({ ...data, records });
-
-  const [state, setState] = useState({
-    ...data,
-    records,
-  });
+  const [state, setState] = useState(data);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
