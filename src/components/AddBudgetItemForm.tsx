@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import * as types from "./types";
+import * as types from "../types";
 
 type AddBudgetItemFormProps = {
   onSubmit: SubmitHandler<types.BudgetItem>;

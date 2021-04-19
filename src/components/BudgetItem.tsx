@@ -2,8 +2,8 @@ import React from "react";
 import { Grid, IconButton, Text } from "@chakra-ui/react";
 import { DeleteIcon, DragHandleIcon } from "@chakra-ui/icons";
 import { Draggable } from "react-beautiful-dnd";
-import * as types from "./types";
-import * as utils from "./utils";
+import * as types from "../types";
+import * as utils from "../utils";
 import { EditableField } from "./EditableField";
 
 export interface BudgetItemProps extends types.BudgetItemRecord {

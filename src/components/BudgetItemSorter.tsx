@@ -1,7 +1,7 @@
 import React from "react";
 import { VStack } from "@chakra-ui/react";
 import { Droppable } from "react-beautiful-dnd";
-import * as types from "./types";
+import * as types from "../types";
 import { BudgetItem } from "./BudgetItem";
 
 export const BudgetItemSorter: React.FunctionComponent<{

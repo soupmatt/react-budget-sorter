@@ -1,5 +1,5 @@
 import React from "react";
-import * as types from "./types";
+import * as types from "../types";
 import { useClipboard, Button, VStack, Text } from "@chakra-ui/react";
 
 export const DataOutput: React.FunctionComponent<types.BudgetSorterState> = (

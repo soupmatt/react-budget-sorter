@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { BudgetItemSorter } from "./BudgetItemSorter";
-import data from "./data.json";
+import data from "../data.json";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import * as types from "./types";
-import * as utils from "./utils";
+import * as types from "../types";
+import * as utils from "../utils";
 import { DataOutput } from "./DataOutput";
 import { HStack, Stat, StatLabel, StatNumber, VStack } from "@chakra-ui/react";
 import { AddBudgetItemForm } from "./AddBudgetItemForm";
