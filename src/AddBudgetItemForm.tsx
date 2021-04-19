@@ -30,18 +30,20 @@ export const AddBudgetItemForm: React.FunctionComponent<AddBudgetItemFormProps> 
         <HStack spacing={3}>
           <FormControl id="name">
             <FormLabel htmlFor="name">Name of Item</FormLabel>
-            <Input name="name" ref={register} isRequired={true} />
+            <Input {...register("name")} isRequired={true} />
           </FormControl>
           <FormControl id="amount">
             <FormLabel htmlFor="amount">Amount</FormLabel>
             <Input
-              name="amount"
+              {...register("amount", {
+                valueAsNumber: true,
+                min: 0,
+                max: 100000,
+                required: true,
+              })}
               type="number"
-              max="100000"
               step="0.01"
               placeholder="7500.00"
-              ref={register}
-              isRequired={true}
             />
           </FormControl>
         </HStack>

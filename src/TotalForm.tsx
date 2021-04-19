@@ -24,13 +24,15 @@ export const TotalForm: React.FunctionComponent<TotalFormProps> = ({
         <FormControl id="totalAmount">
           <FormLabel htmlFor="totalAmount">Amount</FormLabel>
           <Input
-            name="totalAmount"
+            {...register("totalAmount", {
+              valueAsNumber: true,
+              min: 0,
+              max: 100000,
+              required: true,
+            })}
             type="number"
-            max="100000"
             step="0.01"
             placeholder="7500.00"
-            ref={register}
-            isRequired={true}
           />
         </FormControl>
         <Button mt={4} colorScheme="teal" type="submit">
